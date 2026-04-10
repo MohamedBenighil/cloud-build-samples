@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # [START cloudbuild_maven]
+options:
+  defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
 steps:
   - name: maven:3-eclipse-temurin-21-alpine
     entrypoint: mvn
