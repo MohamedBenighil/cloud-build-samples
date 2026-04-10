@@ -36,5 +36,13 @@ steps:
     args: ["build", "-t", "$_LOCATION-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/hellospring:$SHORT_SHA", "--build-arg=JAR_FILE=target/hello-spring-1.0.0.jar", "."]
 images: ["$_LOCATION-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/hellospring:$SHORT_SHA"]
 
+- name: alpine
+  dir: $_DIR/manifests
+  entrypoint: sh
+  args:
+    - "-c"
+    - |
+      sed -i "s|image: .*hellospring.*|image: us-west2-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/hellospring:$SHORT_SHA|g" deployement.yaml
+      cat deployement.yaml
   
 # [END cloudbuild_maven]
