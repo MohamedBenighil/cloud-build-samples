@@ -16,22 +16,25 @@ options:
   defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
 substitutions:
   _REPO_NAME: quickstart-docker-repo
+  _LOCATION: us-west2
+  _DIR: maven-example
+
 steps:
   - name: alpine
     entrypoint: sh
     args: ["-c", "ls -R"]
   - name: maven:3-eclipse-temurin-21-alpine
-    dir: maven-example
+    dir: $_DIR
     entrypoint: mvn
     args: ["test"]
   - name: maven:3-eclipse-temurin-21-alpine
-    dir: maven-example
+    dir: $_DIR
     entrypoint: mvn
     args: ["package", "-Dmaven.test.skip=true"]
   - name: gcr.io/cloud-builders/docker
-    dir: maven-example
-    args: ["build", "-t", "us-west2-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/hellospring", "--build-arg=JAR_FILE=target/hello-spring-1.0.0.jar", "."]
-images: ["us-west2-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/hellospring"]
+    dir: $_DIR
+    args: ["build", "-t", "$_LOCATION-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/hellospring:$SHORT_SHA", "--build-arg=JAR_FILE=target/hello-spring-1.0.0.jar", "."]
+images: ["$_LOCATION-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/hellospring:$SHORT_SHA"]
 
   
 # [END cloudbuild_maven]
