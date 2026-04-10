@@ -15,6 +15,9 @@
 options:
   defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
 steps:
+  - name: alpine
+    entrypoint: sh
+    args: ["-c", "ls -R"]
   - name: maven:3-eclipse-temurin-21-alpine
     entrypoint: mvn
     args: ["test"]
