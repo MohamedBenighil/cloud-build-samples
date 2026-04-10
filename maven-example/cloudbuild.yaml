@@ -19,12 +19,15 @@ steps:
     entrypoint: sh
     args: ["-c", "ls -R"]
   - name: maven:3-eclipse-temurin-21-alpine
+    dir: maven-example
     entrypoint: mvn
     args: ["test"]
   - name: maven:3-eclipse-temurin-21-alpine
+    dir: maven-example
     entrypoint: mvn
     args: ["package", "-Dmaven.test.skip=true"]
   - name: gcr.io/cloud-builders/docker
+    dir: maven-example
     args: ["build", "-t", "us-central1-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/hellospring", "--build-arg=JAR_FILE=target/hello-spring-1.0.0.jar", "."]
 images: ["us-central1-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/hellospring"]
 # [END cloudbuild_maven]
