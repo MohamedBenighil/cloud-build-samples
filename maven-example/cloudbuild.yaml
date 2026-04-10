@@ -34,7 +34,6 @@ steps:
   - name: gcr.io/cloud-builders/docker
     dir: $_DIR
     args: ["build", "-t", "$_LOCATION-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/hellospring:$SHORT_SHA", "--build-arg=JAR_FILE=target/hello-spring-1.0.0.jar", "."]
-images: ["$_LOCATION-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/hellospring:$SHORT_SHA"]
 
   - name: alpine
     dir: $_DIR/manifests
@@ -45,4 +44,5 @@ images: ["$_LOCATION-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/hellospring:$SHORT_S
         sed -i "s|image: .*hellospring.*|image: us-west2-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/hellospring:$SHORT_SHA|g" deployement.yaml
         cat deployement.yaml
   
+images: ["$_LOCATION-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/hellospring:$SHORT_SHA"]
 # [END cloudbuild_maven]
